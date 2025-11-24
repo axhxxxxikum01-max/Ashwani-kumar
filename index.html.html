@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Trinity International Public School | TIPS Campuses</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0f172a;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.5rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: #020617;
+            flex-shrink: 0;
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-text span:first-child {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .brand-text span:last-child {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #9ca3af;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.1rem;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            padding: 0.25rem 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #38bdf8;
+            color: #e0f2fe;
+        }
+
+        /* User badge */
+        .user-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        #user-badge {
+            font-size: 0.75rem;
+        }
+
+        #logout-btn {
+            border: none;
+            outline: none;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            cursor: pointer;
+            color: #e5e7eb;
+            font-size: 0.7rem;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        #logout-btn:hover {
+            transform: translateY(-1px);
+            background: rgba(220, 38, 38, 0.3);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.6);
+        }
+
+        /* Edit toolbar */
+        .edit-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            padding: 0.25rem 0.6rem;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
+        }
+
+        .edit-toolbar button {
+            border: none;
+            outline: none;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            cursor: pointer;
+            color: #e5e7eb;
+            font-size: 0.75rem;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .edit-toolbar button:hover {
+            transform: translateY(-1px);
+            background: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.6);
+        }
+
+        .edit-indicator {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            transition: color 0.2s ease;
+        }
+
+        body.editing .edit-indicator {
+            color: #22c55e;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.2rem 3rem;
+            transition: outline 0.2s ease, outline-offset 0.2s ease;
+        }
+
+        body.editing main {
+            outline: 2px dashed rgba(56, 189, 248, 0.5);
+            outline-offset: 6px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            gap: 2rem;
+            align-items: center;
+            padding: 2.5rem 0 1.8rem;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2rem, 3.4vw, 2.7rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-text h1 span {
+            color: #38bdf8;
+        }
+
+        .hero-text .tagline {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3af;
+            margin-bottom: 0.6rem;
+        }
+
+        .hero-text p {
+            color: #cbd5f5;
+            margin-bottom: 1rem;
+            max-width: 520px;
+        }
+
+        .hero-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.6rem 0 1.2rem;
+            font-size: 0.78rem;
+        }
+
+        .pill {
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            color: #e5e7eb;
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 999px;
+            border: 1px solid #38bdf8;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.18s ease,
+                background 0.15s ease;
+            background: transparent;
+            color: #e5e7eb;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            border-color: transparent;
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 16px 35px rgba(15, 23, 42, 0.9);
+        }
+
+        .hero-image-card {
+            background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.18), transparent 55%),
+                #020617;
+            border-radius: 24px;
+            padding: 1.1rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        .hero-image {
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+        }
+
+        .hero-image img {
+            transform: scale(1.02);
+            transition: transform 0.8s ease;
+        }
+
+        .hero-image-card:hover .hero-image img {
+            transform: scale(1.06);
+        }
+
+        .hero-image-caption {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #cbd5f5;
+        }
+
+        section {
+            margin-top: 2.5rem;
+        }
+
+        section h2 {
+            font-size: 1.35rem;
+            margin-bottom: 0.4rem;
+        }
+
+        section p.section-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+            gap: 1.8rem;
+        }
+
+        .about-text {
+            font-size: 0.95rem;
+            color: #e5e7eb;
+        }
+
+        .info-card {
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            background: rgba(15, 23, 42, 0.95);
+            font-size: 0.9rem;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.8);
+        }
+
+        .info-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .info-row {
+            margin-bottom: 0.3rem;
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #9ca3af;
+        }
+
+        .info-value {
+            font-size: 0.92rem;
+        }
+
+        ul {
+            padding-left: 1.1rem;
+            font-size: 0.9rem;
+        }
+
+        ul li {
+            margin-bottom: 0.3rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1rem;
+            margin-top: 0.6rem;
+        }
+
+        .card {
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            background: rgba(15, 23, 42, 0.95);
+            font-size: 0.9rem;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+            border-color: rgba(56, 189, 248, 0.6);
+        }
+
+        .campus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .campus-card {
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: rgba(15, 23, 42, 0.97);
+            font-size: 0.9rem;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .campus-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
+        }
+
+        .campus-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: #9ca3af;
+            margin-bottom: 0.3rem;
+        }
+
+        .campus-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .campus-board {
+            font-size: 0.8rem;
+            color: #cbd5f5;
+            margin-bottom: 0.4rem;
+        }
+
+        .campus-meta {
+            font-size: 0.78rem;
+            color: #9ca3af;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.9rem;
+            margin-top: 0.8rem;
+        }
+
+        .gallery-item {
+            border-radius: 0.8rem;
+            overflow: hidden;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: #020617;
+            font-size: 0.8rem;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .gallery-item img {
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 38px rgba(15, 23, 42, 0.9);
+            border-color: rgba(56, 189, 248, 0.6);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-item p {
+            padding: 0.5rem 0.7rem 0.6rem;
+        }
+
+        .contact-box {
+            margin-top: 0.8rem;
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px dashed rgba(148, 163, 184, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .contact-row {
+            margin-top: 0.5rem;
+        }
+
+        .contact-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #9ca3af;
+        }
+
+        .contact-value {
+            font-size: 0.95rem;
+        }
+
+        /* Login / profile section */
+        .login-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .auth-card {
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: rgba(15, 23, 42, 0.97);
+            font-size: 0.9rem;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.85);
+        }
+
+        .auth-card h3 {
+            margin-bottom: 0.4rem;
+            font-size: 1rem;
+        }
+
+        .auth-card p {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 0.6rem;
+        }
+
+        .auth-card label {
+            display: block;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            border-radius: 0.4rem;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: #020617;
+            color: #e5e7eb;
+            font-size: 0.85rem;
+        }
+
+        .auth-card input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+        }
+
+        .auth-btn {
+            margin-top: 0.7rem;
+            width: 100%;
+            padding: 0.5rem 0.8rem;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.4);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(22, 163, 74, 0.5);
+        }
+
+        .auth-note {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
+        }
+
+        /* Chat room */
+        .chat-wrapper {
+            margin-top: 0.8rem;
+            display: grid;
+            grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .chat-wrapper {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .chat-card {
+            padding: 1rem;
+            border-radius: 0.9rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: rgba(15, 23, 42, 0.97);
+            font-size: 0.9rem;
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.85);
+            display: flex;
+            flex-direction: column;
+            min-height: 260px;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .chat-status {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .chat-messages {
+            flex: 1;
+            border-radius: 0.6rem;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            background: #020617;
+            padding: 0.6rem 0.5rem;
+            overflow-y: auto;
+            max-height: 260px;
+            font-size: 0.85rem;
+        }
+
+        .chat-empty {
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .chat-message {
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px dashed rgba(55, 65, 81, 0.6);
+        }
+
+        .chat-meta {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 0.1rem;
+        }
+
+        .chat-text {
+            font-size: 0.9rem;
+        }
+
+        .chat-input-row {
+            margin-top: 0.6rem;
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 0.45rem 0.6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            background: #020617;
+            color: #e5e7eb;
+            font-size: 0.85rem;
+        }
+
+        #chat-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+        }
+
+        #chat-send-btn {
+            border-radius: 999px;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #0f172a;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.4);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        #chat-send-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 28px rgba(56, 189, 248, 0.5);
+        }
+
+        #chat-clear-btn {
+            margin-top: 0.4rem;
+            align-self: flex-end;
+            font-size: 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            padding: 0.25rem 0.6rem;
+            background: rgba(15, 23, 42, 0.9);
+            cursor: pointer;
+            color: #9ca3af;
+        }
+
+        #chat-clear-btn:hover {
+            background: rgba(185, 28, 28, 0.35);
+            color: #fee2e2;
+        }
+
+        .chat-note {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 0.4rem;
+        }
+
+        footer {
+            border-top: 1px solid rgba(148, 163, 184, 0.3);
+            padding: 1rem 1.2rem 1.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-top: 2rem;
+        }
+
+        /* REVEAL ANIMATIONS (on scroll) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            filter: blur(4px);
+            transition:
+                opacity 0.7s ease-out,
+                transform 0.7s ease-out,
+                filter 0.7s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+
+        /* While editing, show everything clearly */
+        body.editing .reveal {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+        }
+
+        /* KEYFRAMES */
+        @keyframes floatCard {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes logoGlow {
+            0% {
+                box-shadow: 0 0 0 rgba(56, 189, 248, 0.0);
+            }
+
+            50% {
+                box-shadow: 0 0 18px rgba(56, 189, 248, 0.55);
+            }
+
+            100% {
+                box-shadow: 0 0 0 rgba(56, 189, 248, 0.0);
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .hero,
+            .two-col {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .nav-main {
+                gap: 0.6rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            main {
+                padding-top: 1.5rem;
+            }
+
+            .hero {
+                padding-top: 2rem;
+            }
+
+            .edit-toolbar {
+                position: fixed;
+                bottom: 0.75rem;
+                right: 0.75rem;
+            }
+
+            .user-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav">
+            <div class="brand">
+                <div class="brand-logo">
+                    <img src="https://placehold.co/80x80?text=TIPS" alt="Trinity International Public School logo" />
+                </div>
+                <div class="brand-text">
+                    <span>Trinity International Public School</span>
+                    <span>CBSE · ICSE · ISC</span>
+                </div>
+            </div>
+
+            <div class="nav-main">
+                <nav class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#founder">Founder</a>
+                    <a href="#campuses">Campuses</a>
+                    <a href="#academics">Academics</a>
+                    <a href="#facilities">Facilities</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#login">Login</a>
+                    <a href="#chat">Chat Room</a>
+                    <a href="#contact">Admissions & Contact</a>
+                </nav>
+
+                <div class="user-indicator">
+                    <span id="user-badge">Guest · Not logged in</span>
+                    <button id="logout-btn" type="button">Logout</button>
+                </div>
+
+                <div class="edit-toolbar">
+                    <span class="edit-indicator" id="edit-status">View Mode</span>
+                    <button id="edit-toggle">Edit On/Off</button>
+                    <button id="save-site">Save Changes</button>
+                    <button id="reset-site">Reset Site</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Everything inside <main> can be edited when Edit Mode is ON -->
+    <main id="editable-area">
+        <!-- Hero Section -->
+        <section class="hero reveal" id="home" style="--delay: 0.1s;">
+            <div class="hero-text">
+                <div class="tagline">Trinity Group · Lucknow</div>
+                <h1>Welcome to <span>Trinity International Public School</span></h1>
+                <p>
+                    Trinity International Public School (TIPS) has campuses at Amrapali Yojna (CBSE)
+                    and Eldeco Udyan-1 / Bangla Bazar (ICSE &amp; ISC), providing holistic education
+                    with a strong focus on academics, values and life skills.
+                </p>
+
+                <div class="hero-highlights">
+                    <div class="pill">Co-educational · Day School</div>
+                    <div class="pill">CBSE · ICSE · ISC</div>
+                    <div class="pill">Modern Classrooms &amp; Labs</div>
+                    <div class="pill">Sports &amp; Co-curricular Activities</div>
+                </div>
+
+                <div class="hero-buttons">
+                    <button class="btn btn-primary"
+                        onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">
+                        Enquiry / Admissions
+                    </button>
+                    <button class="btn"
+                        onclick="document.getElementById('campuses').scrollIntoView({behavior:'smooth'});">
+                        View Campuses
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-image-card reveal" style="--delay: 0.3s;">
+                <div class="hero-image">
+                    <img src="https://placehold.co/700x420?text=Trinity+Main+Campus"
+                        alt="Trinity International Public School campus" />
+                </div>
+                <p class="hero-image-caption">
+                    Safe, vibrant and learner-centred campuses at Amrapali Yojna and Eldeco Udyan-1, Lucknow.
+                </p>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="reveal" style="--delay: 0.1s;">
+            <h2>About Trinity International Public School</h2>
+            <p class="section-subtitle">Holistic education for tomorrow’s global citizens.</p>
+
+            <div class="two-col">
+                <div class="about-text">
+                    <p>
+                        Trinity International Public School (TIPS) in Lucknow is a co-educational English
+                        medium group of schools offering CBSE, ICSE and ISC curricula. With campuses at
+                        Amrapali Yojna and Eldeco Udyan-1 (Eldeco Colony / Bangla Bazar), TIPS focuses on
+                        a balanced blend of strong academics, sports, arts and life skills to ensure the
+                        all-round development of students.
+                    </p>
+                    <br />
+                    <p>
+                        Well-qualified teachers, modern classrooms and a caring environment help build
+                        confident, disciplined and responsible individuals who are ready to face the
+                        challenges of a rapidly changing world.
+                    </p>
+                    <br />
+                    <p><strong>Vision:</strong> To provide every child with the tools, values and opportunities
+                        to learn, explore and discover their full potential.</p>
+                    <p><strong>Mission:</strong> To create learner-centred, safe and inclusive campuses where
+                        academic excellence goes hand-in-hand with character building and life-long learning.</p>
+                </div>
+
+                <div class="info-card reveal" style="--delay: 0.25s;">
+                    <h3>Group Highlights</h3>
+                    <div class="info-row">
+                        <div class="info-label">Locations</div>
+                        <div class="info-value">
+                            Amrapali Yojna, Awas Vikas, Lucknow (CBSE)<br />
+                            Eldeco Udyan-1 / Bangla Bazar, Lucknow (ICSE &amp; ISC)
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Medium</div>
+                        <div class="info-value">English · Co-educational · Day School</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Classes</div>
+                        <div class="info-value">Nursery / I to XII (as per campus)</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Academic Session</div>
+                        <div class="info-value">April to March</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Focus Areas</div>
+                        <div class="info-value">
+                            Concept clarity · Communication skills · Discipline · Values · Life skills
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founder / Owner -->
+        <section id="founder" class="reveal" style="--delay: 0.1s;">
+            <h2>Founder &amp; Management</h2>
+            <p class="section-subtitle">The vision and people behind Trinity International Public School.</p>
+
+            <div class="two-col">
+                <div class="about-text">
+                    <p>
+                        Trinity International Public School was founded by
+                        <strong>Mr. B. L. Singh</strong>, Ex. Additional Commissioner, with a clear vision of
+                        creating a school where children learn to think independently, adapt to change and
+                        contribute positively to society. He laid the foundation of TIPS with the belief
+                        that education should focus on learning, relearning and active participation in the
+                        world around us.
+                    </p>
+                    <br />
+                    <p>
+                        Under his guidance, TIPS has grown from a single campus to a reputed group of schools
+                        in Lucknow, offering quality education through the CBSE, ICSE and ISC boards. His
+                        emphasis on discipline, values and modern infrastructure continues to shape the
+                        culture of the school.
+                    </p>
+                    <br />
+                    <p>
+                        The <strong>Amrapali Yojna (CBSE) campus</strong> is managed by
+                        <strong>B.S.S. Educational Centre</strong>, which looks after academic standards,
+                        staff development and overall administration. The Eldeco Udyan-1 campus follows the
+                        norms of the Council for the Indian School Certificate Examinations (CISCE) while
+                        upholding the same Trinity philosophy and ethos.
+                    </p>
+                </div>
+
+                <div class="info-card reveal" style="--delay: 0.25s;">
+                    <h3>Our Founder</h3>
+                    <div style="display:flex; gap:0.8rem; align-items:flex-start; margin-bottom:0.6rem;">
+                        <div
+                            style="width:90px; height:90px; border-radius:999px; overflow:hidden; border:1px solid rgba(148,163,184,0.6); flex-shrink:0;">
+                            <img src="https://placehold.co/200x200?text=Mr.+B.L.+Singh" alt="Founder Mr. B. L. Singh" />
+                        </div>
+                        <div style="font-size:0.9rem;">
+                            <div style="font-weight:600;">Mr. B. L. Singh</div>
+                            <div style="font-size:0.8rem; color:#9ca3af; margin-bottom:0.3rem;">
+                                Founder, Trinity International Public School
+                            </div>
+                            <div style="font-size:0.8rem;">
+                                Ex. Additional Commissioner<br />
+                                Educationist &amp; Visionary Founder of TIPS Group
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Role</div>
+                        <div class="info-value">
+                            Founder &amp; Mentor of Trinity International Public School campuses in Lucknow.
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Key Focus</div>
+                        <div class="info-value">
+                            Value-based education, disciplined environment, modern infrastructure and
+                            opportunities for students to learn beyond textbooks.
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Management Body</div>
+                        <div class="info-value">
+                            B.S.S. Educational Centre (for Amrapali Yojna CBSE campus) along with a dedicated
+                            team of academic leaders and teachers.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Campuses -->
+        <section id="campuses" class="reveal" style="--delay: 0.1s;">
+            <h2>Our Campuses</h2>
+            <p class="section-subtitle">Two strong campuses under one vision.</p>
+
+            <div class="campus-grid">
+                <div class="campus-card reveal" style="--delay: 0.2s;">
+                    <div class="campus-tag">Campus 1</div>
+                    <div class="campus-name">TIPS – Amrapali Yojna (CBSE)</div>
+                    <div class="campus-board">Affiliated to CBSE · School Code: 71659</div>
+                    <p>
+                        Trinity International Public School, Amrapali Yojna is a CBSE-affiliated
+                        co-educational school offering a strong academic programme with modern sports
+                        facilities, labs and a student-friendly environment.
+                    </p>
+                    <div class="campus-meta">
+                        Address: E-5, Awas Vikas, Amrapali Yojna,<br />
+                        Lucknow – 226003, Uttar Pradesh, India
+                    </div>
+                </div>
+
+                <div class="campus-card reveal" style="--delay: 0.3s;">
+                    <div class="campus-tag">Campus 2</div>
+                    <div class="campus-name">TIPS – Eldeco Udyan-1 (ICSE &amp; ISC)</div>
+                    <div class="campus-board">Affiliated to CISCE (ICSE &amp; ISC) · School Code: UP352</div>
+                    <p>
+                        Trinity International Public School, Eldeco Udyan-1 (often known as ICS TIPS Eldeco
+                        Colony / Bangla Bazar) is a co-educational ICSE &amp; ISC campus established in 2013.
+                        It offers concept-driven learning with emphasis on communication, values and
+                        personality development.
+                    </p>
+                    <div class="campus-meta">
+                        Address: Gate No-1, Eldeco Udyan-1, near Casa Green,<br />
+                        Bangla Bazar, Lucknow – 226002, Uttar Pradesh, India
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academics -->
+        <section id="academics" class="reveal" style="--delay: 0.1s;">
+            <h2>Academics</h2>
+            <p class="section-subtitle">Strong foundation, concept clarity and continuous assessment.</p>
+
+            <div class="grid-3">
+                <div class="card reveal" style="--delay: 0.15s;">
+                    <h3>Primary (Nursery / I – V)</h3>
+                    <p>
+                        Focus on building a strong base in English, Mathematics, Environmental Studies,
+                        Hindi and Computer education with activity-based learning and regular reinforcement.
+                    </p>
+                    <ul>
+                        <li>Play-way and experiential methods</li>
+                        <li>Emphasis on reading and communication skills</li>
+                        <li>Colourful, child-friendly classrooms</li>
+                    </ul>
+                </div>
+
+                <div class="card reveal" style="--delay: 0.25s;">
+                    <h3>Middle &amp; Secondary (VI – X)</h3>
+                    <p>
+                        Structured CBSE / ICSE curriculum with a focus on conceptual understanding,
+                        projects and periodic assessments.
+                    </p>
+                    <ul>
+                        <li>Science &amp; Mathematics lab support</li>
+                        <li>Projects, assignments and group work</li>
+                        <li>Continuous feedback to parents</li>
+                    </ul>
+                </div>
+
+                <div class="card reveal" style="--delay: 0.35s;">
+                    <h3>Senior Secondary (XI – XII)</h3>
+                    <p>
+                        Career-oriented preparation with guidance for competitive exams along
+                        with board examinations (CBSE / ISC, as offered at respective campuses).
+                    </p>
+                    <ul>
+                        <li>Streams as per CBSE / ISC norms (Science / Commerce etc.)</li>
+                        <li>Special focus on board exam preparation</li>
+                        <li>Career counselling and mentoring</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities -->
+        <section id="facilities" class="reveal" style="--delay: 0.1s;">
+            <h2>Facilities</h2>
+            <p class="section-subtitle">Safe, well-equipped and student-friendly campus environment.</p>
+
+            <div class="grid-3">
+                <div class="card reveal" style="--delay: 0.15s;">
+                    <h3>Campus &amp; Classrooms</h3>
+                    <ul>
+                        <li>Spacious, well-ventilated classrooms</li>
+                        <li>Lush green playgrounds and sports facilities</li>
+                        <li>Safe and student-friendly campus layout</li>
+                    </ul>
+                </div>
+
+                <div class="card reveal" style="--delay: 0.25s;">
+                    <h3>Labs &amp; Library</h3>
+                    <ul>
+                        <li>Well-equipped Science laboratories (Physics, Chemistry, Biology)</li>
+                        <li>Computer labs with internet-enabled systems</li>
+                        <li>Libraries with academic and story books</li>
+                    </ul>
+                </div>
+
+                <div class="card reveal" style="--delay: 0.35s;">
+                    <h3>Student Support</h3>
+                    <ul>
+                        <li>Transport facility on major routes (as per campus)</li>
+                        <li>Medical room / basic first-aid support</li>
+                        <li>Regular parent–teacher interaction</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="font-size:0.8rem; color:#9ca3af; margin-top:0.6rem;">
+                Note: Facilities and streams may vary by campus and session. Please confirm with the respective school
+                office.
+            </p>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="reveal" style="--delay: 0.1s;">
+            <h2>Gallery</h2>
+            <p class="section-subtitle">A glimpse of life at Trinity International Public School.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item reveal" style="--delay: 0.15s;">
+                    <img src="https://placehold.co/400x250?text=Amrapali+Campus" alt="TIPS Amrapali Yojna campus" />
+                    <p>CBSE campus at Amrapali Yojna – modern building with green surroundings.</p>
+                </div>
+
+                <div class="gallery-item reveal" style="--delay: 0.22s;">
+                    <img src="https://placehold.co/400x250?text=Eldeco+Campus" alt="TIPS Eldeco Udyan-1 campus" />
+                    <p>ICSE &amp; ISC campus at Eldeco Udyan-1 / Bangla Bazar with spacious playgrounds.</p>
+                </div>
+
+                <div class="gallery-item reveal" style="--delay: 0.29s;">
+                    <img src="https://placehold.co/400x250?text=Classroom"
+                        alt="Classroom at Trinity International Public School" />
+                    <p>Interactive classrooms that encourage participation and joyful learning.</p>
+                </div>
+
+                <div class="gallery-item reveal" style="--delay: 0.36s;">
+                    <img src="https://placehold.co/400x250?text=Cultural+%26+Sports"
+                        alt="Students in cultural and sports activities" />
+                    <p>Students participating in cultural events and sports for all-round development.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login / Profile -->
+        <section id="login" class="reveal" style="--delay: 0.1s;">
+            <h2>Login &amp; Profile</h2>
+            <p class="section-subtitle">Create your profile or login as student/parent.</p>
+
+            <div class="login-grid">
+                <div class="auth-card">
+                    <h3>Login</h3>
+                    <p>Already created a profile on this device? Login with your email and password.</p>
+                    <form id="login-form">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required placeholder="you@example.com" />
+
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required placeholder="Enter password" />
+
+                        <button type="submit" class="auth-btn">Login</button>
+                        <div class="auth-note">
+                            This is a demo login stored only in your browser (localStorage).
+                        </div>
+                    </form>
+                </div>
+
+                <div class="auth-card">
+                    <h3>Create Profile</h3>
+                    <p>Create a basic student/parent profile on this browser.</p>
+                    <form id="signup-form">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required placeholder="Your name" />
+
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required placeholder="you@example.com" />
+
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required placeholder="Create password" />
+
+                        <button type="submit" class="auth-btn">Create Profile</button>
+                        <div class="auth-note">
+                            • Profile is saved only on this device.<br />
+                            • For real school system, connect to a secure backend (not included here).
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Room -->
+        <section id="chat" class="reveal" style="--delay: 0.1s;">
+            <h2>Social Connect · Chat Room</h2>
+            <p class="section-subtitle">
+                A simple group chat area for students and parents on this device.
+            </p>
+
+            <div class="chat-wrapper">
+                <div class="chat-card">
+                    <div class="chat-header">
+                        <span>Class / Campus Chat</span>
+                        <span class="chat-status" id="chat-status-text">You are chatting as Guest</span>
+                    </div>
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="chat-empty">No messages yet. Be the first to say hello! 👋</div>
+                    </div>
+
+                    <form id="chat-form">
+                        <div class="chat-input-row">
+                            <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" />
+                            <button id="chat-send-btn" type="submit">Send</button>
+                        </div>
+                        <div class="chat-note">
+                            • You must be <strong>logged in</strong> to send messages.<br />
+                            • Messages are stored only on this device (demo chat, not real online chat).<br />
+                            • Turn <strong>Edit Mode OFF</strong> to use the chat.
+                        </div>
+                    </form>
+                    <button id="chat-clear-btn" type="button">Clear chat (this device)</button>
+                </div>
+
+                <div class="auth-card">
+                    <h3>About This Chat</h3>
+                    <p>
+                        This is a front-end demo chat room built for the Trinity International Public School
+                        website project.
+                    </p>
+                    <ul>
+                        <li>Messages are stored in your browser using localStorage.</li>
+                        <li>Only people using this same computer & browser can see them.</li>
+                        <li>To make it a real multi-user chat, connect to a backend (e.g. Firebase).</li>
+                    </ul>
+                    <p class="auth-note" style="margin-top:0.7rem;">
+                        This layout can later be connected to a real server or Firebase Realtime Database /
+                        Firestore to support live chatting between many users.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact / Admissions -->
+        <section id="contact" class="reveal" style="--delay: 0.1s%;">
+            <h2>Admissions &amp; Contact</h2>
+            <p class="section-subtitle">Get in touch with TIPS campuses in Lucknow.</p>
+
+            <div class="contact-box reveal" style="--delay: 0.2s;">
+                <p>
+                    For admission enquiries, fee details or to schedule a campus visit, please contact
+                    the respective school office or visit the official website.
+                </p>
+
+                <div class="contact-row">
+                    <div class="contact-label">Amrapali Yojna (CBSE)</div>
+                    <div class="contact-value">
+                        Trinity International Public School (TIPS), Amrapali Yojna<br />
+                        E-5, Awas Vikas, Amrapali Yojna,<br />
+                        Lucknow – 226003, Uttar Pradesh, India
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Eldeco Udyan-1 (ICSE &amp; ISC)</div>
+                    <div class="contact-value">
+                        Trinity International Public School (TIPS), Eldeco Udyan-1 / Bangla Bazar<br />
+                        Gate No-1, Eldeco Udyan-1 (near Casa Green),<br />
+                        Bangla Bazar, Lucknow – 226002, Uttar Pradesh, India
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:trinityinternationaltips@gmail.com">trinityinternationaltips@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Website</div>
+                    <div class="contact-value">
+                        <a href="https://trinitypublicschools.com" target="_blank">
+                            https://trinitypublicschools.com
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-row">
+                    <div class="contact-label">Phone</div>
+                    <div class="contact-value">
+                        School Office (Amrapali / Eldeco): +91-XXXXXXXXXX
+                        <span style="font-size:0.8rem; color:#9ca3af;">
+                            (replace with official contact numbers)
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © <span id="year"></span> Trinity International Public School, Lucknow. All rights reserved.
+    </footer>
+
+    <script>
+        // ---- KEYS ----
+        document.getElementById("year").textContent = new Date().getFullYear();
+        const EDIT_KEY = "tips_editable_main_html_v2";
+        const USERS_KEY = "tips_users_v1";
+        const CURRENT_USER_KEY = "tips_current_user_v1";
+        const CHAT_KEY = "tips_chat_messages_v1";
+
+        // ---- DOM ELEMENTS ----
+        const main = document.getElementById("editable-area");
+        const editToggle = document.getElementById("edit-toggle");
+        const saveBtn = document.getElementById("save-site");
+        const resetBtn = document.getElementById("reset-site");
+        const statusEl = document.getElementById("edit-status");
+        const userBadge = document.getElementById("user-badge");
+        const logoutBtn = document.getElementById("logout-btn");
+
+        // Load saved main content (if any)
+        const savedHtml = localStorage.getItem(EDIT_KEY);
+        if (savedHtml) {
+            main.innerHTML = savedHtml;
+        }
+
+        let editing = false;
+
+        function updateStatus() {
+            if (editing) {
+                statusEl.textContent = "Editing Mode";
+                document.body.classList.add("editing");
+            } else {
+                statusEl.textContent = "View Mode";
+                document.body.classList.remove("editing");
+            }
+        }
+
+        function setEditingMode(on) {
+            editing = on;
+            main.contentEditable = on ? "true" : "false";
+            updateStatus();
+        }
+
+        editToggle.addEventListener("click", () => {
+            setEditingMode(!editing);
+        });
+
+        saveBtn.addEventListener("click", () => {
+            localStorage.setItem(EDIT_KEY, main.innerHTML);
+            alert("Changes saved on this browser ✅");
+        });
+
+        resetBtn.addEventListener("click", () => {
+            if (confirm("Reset the site to original content? This will remove your saved changes.")) {
+                localStorage.removeItem(EDIT_KEY);
+                window.location.reload();
+            }
+        });
+
+        // ---- SCROLL REVEAL ----
+        function initRevealAnimations() {
+            const revealElements = document.querySelectorAll(".reveal");
+            if (!("IntersectionObserver" in window)) {
+                revealElements.forEach(el => el.classList.add("reveal-visible"));
+                return;
+            }
+
+            const observer = new IntersectionObserver(
+                (entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("reveal-visible");
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.15 }
+            );
+
+            revealElements.forEach(el => observer.observe(el));
+        }
+
+        // ---- IMAGE EDITOR ----
+        function initImageEditor() {
+            const imgs = main.querySelectorAll("img");
+            imgs.forEach(img => {
+                if (img.dataset.imgEditorAttached === "1") return;
+                img.dataset.imgEditorAttached = "1";
+
+                if (!img.dataset.defaultSrc) {
+                    img.dataset.defaultSrc = img.src;
+                }
+
+                img.addEventListener("click", (e) => {
+                    if (!editing) return; // only in edit mode
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const current = img.src;
+                    const answer = prompt(
+                        "Edit image\n\n- Paste NEW image URL to change\n- Type 'remove' to hide image\n- Type 'default' to restore original\n\nCurrent URL:\n" + current
+                    );
+
+                    if (answer === null) return;
+
+                    const value = answer.trim();
+
+                    if (value.toLowerCase() === "default") {
+                        img.src = img.dataset.defaultSrc || current;
+                        img.style.opacity = "1";
+                        img.style.filter = "none";
+                        return;
+                    }
+
+                    if (value.toLowerCase() === "remove") {
+                        const w = img.naturalWidth || img.clientWidth || 400;
+                        const h = img.naturalHeight || img.clientHeight || 250;
+                        img.src = "https://placehold.co/" + w + "x" + h + "?text=No+Image";
+                        img.style.opacity = "0.6";
+                        img.style.filter = "grayscale(100%)";
+                        return;
+                    }
+
+                    if (value !== "") {
+                        img.src = value;
+                        img.style.opacity = "1";
+                        img.style.filter = "none";
+                    }
+                });
+            });
+        }
+
+        // ---- AUTH HELPERS ----
+        function loadUsers() {
+            try {
+                return JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
+            } catch {
+                return [];
+            }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        function getCurrentUser() {
+            try {
+                const raw = localStorage.getItem(CURRENT_USER_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function setCurrentUser(user) {
+            if (user) {
+                localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+            } else {
+                localStorage.removeItem(CURRENT_USER_KEY);
+            }
+            updateUserBadge();
+            updateChatStatus();
+        }
+
+        function updateUserBadge() {
+            const user = getCurrentUser();
+            if (user && user.name) {
+                userBadge.textContent = "Logged in as: " + user.name;
+            } else {
+                userBadge.textContent = "Guest · Not logged in";
+            }
+        }
+
+        function initAuth() {
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+
+            if (signupForm) {
+                signupForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    if (editing) {
+                        alert("Turn OFF Edit Mode before using login/profile forms.");
+                        return;
+                    }
+
+                    const name = document.getElementById("signup-name").value.trim();
+                    const email = document.getElementById("signup-email").value.trim().toLowerCase();
+                    const password = document.getElementById("signup-password").value;
+
+                    if (!name || !email || !password) {
+                        alert("Please fill all fields.");
+                        return;
+                    }
+
+                    const users = loadUsers();
+                    const exists = users.find(u => u.email === email);
+                    if (exists) {
+                        alert("A profile with this email already exists. Please login instead.");
+                        return;
+                    }
+
+                    const user = { name, email, password }; // demo only
+                    users.push(user);
+                    saveUsers(users);
+                    setCurrentUser(user);
+                    alert("Profile created and logged in ✅");
+                    signupForm.reset();
+                });
+            }
+
+            if (loginForm) {
+                loginForm.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    if (editing) {
+                        alert("Turn OFF Edit Mode before using login/profile forms.");
+                        return;
+                    }
+
+                    const email = document.getElementById("login-email").value.trim().toLowerCase();
+                    const password = document.getElementById("login-password").value;
+
+                    const users = loadUsers();
+                    const user = users.find(u => u.email === email && u.password === password);
+
+                    if (!user) {
+                        alert("Invalid email or password. Please try again or create a profile.");
+                        return;
+                    }
+
+                    setCurrentUser(user);
+                    alert("Logged in successfully ✅");
+                    loginForm.reset();
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener("click", () => {
+                    setCurrentUser(null);
+                    alert("Logged out.");
+                });
+            }
+
+            updateUserBadge();
+        }
+
+        // ---- CHAT ----
+        function loadChatMessages() {
+            try {
+                return JSON.parse(localStorage.getItem(CHAT_KEY) || "[]");
+            } catch {
+                return [];
+            }
+        }
+
+        function saveChatMessages(messages) {
+            localStorage.setItem(CHAT_KEY, JSON.stringify(messages));
+        }
+
+        function formatTime(date) {
+            const d = typeof date === "string" ? new Date(date) : date;
+            const h = d.getHours().toString().padStart(2, "0");
+            const m = d.getMinutes().toString().padStart(2, "0");
+            return `${h}:${m}`;
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById("chat-messages");
+            if (!container) return;
+
+            const messages = loadChatMessages();
+            container.innerHTML = "";
+
+            if (!messages.length) {
+                const div = document.createElement("div");
+                div.className = "chat-empty";
+                div.textContent = "No messages yet. Be the first to say hello! 👋";
+                container.appendChild(div);
+                return;
+            }
+
+            messages.forEach(msg => {
+                const wrap = document.createElement("div");
+                wrap.className = "chat-message";
+
+                const meta = document.createElement("div");
+                meta.className = "chat-meta";
+                meta.textContent = `${msg.name || "Guest"} · ${formatTime(msg.time)}`;
+
+                const text = document.createElement("div");
+                text.className = "chat-text";
+                text.textContent = msg.text;
+
+                wrap.appendChild(meta);
+                wrap.appendChild(text);
+                container.appendChild(wrap);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function updateChatStatus() {
+            const status = document.getElementById("chat-status-text");
+            if (!status) return;
+            const user = getCurrentUser();
+            if (user && user.name) {
+                status.textContent = "You are chatting as " + user.name;
+            } else {
+                status.textContent = "You are chatting as Guest (read-only until you login)";
+            }
+        }
+
+        function initChat() {
+            const chatForm = document.getElementById("chat-form");
+            const chatInput = document.getElementById("chat-input");
+            const clearBtn = document.getElementById("chat-clear-btn");
+
+            if (!chatForm || !chatInput) return;
+
+            renderChatMessages();
+            updateChatStatus();
+
+            chatForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                if (editing) {
+                    alert("Turn OFF Edit Mode to use the chat.");
+                    return;
+                }
+
+                const user = getCurrentUser();
+                if (!user) {
+                    alert("Please login or create a profile before sending messages.");
+                    return;
+                }
+
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                const messages = loadChatMessages();
+                messages.push({
+                    name: user.name || "User",
+                    text,
+                    time: new Date().toISOString()
+                });
+                saveChatMessages(messages);
+                chatInput.value = "";
+                renderChatMessages();
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener("click", () => {
+                    if (confirm("Clear all chat messages on this device?")) {
+                        saveChatMessages([]);
+                        renderChatMessages();
+                    }
+                });
+            }
+        }
+
+        // ---- INITIALISE ----
+        setEditingMode(false);
+        initRevealAnimations();
+        initImageEditor();
+        initAuth();
+        initChat();
+    </script>
+</body>
+
+</html>
