@@ -1,1100 +1,436 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Trinity International Public School | TIPS Campuses</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FakeMoney — Gamer Wallet (Demo)</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+            margin: 0;
             background: #0f172a;
-            color: #e5e7eb;
-            line-height: 1.6;
+            color: #e6eef8
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
+        .wrap {
+            max-width: 980px;
+            margin: 28px auto;
+            padding: 20px;
+            background: linear-gradient(180deg, #071133 0%, #071533 100%);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(2, 6, 23, .6)
         }
 
-        img {
-            max-width: 100%;
+        h1 {
+            margin: 0 0 14px;
+            font-size: 20px
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 18px
+        }
+
+        label {
             display: block;
+            margin: 8px 0 4px;
+            font-size: 13px
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(12px);
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+        input,
+        select,
+        button,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: rgba(255, 255, 255, .02);
+            color: inherit
         }
 
-        .nav {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0.5rem 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .brand-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 999px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.6);
-            background: #020617;
-            flex-shrink: 0;
-            animation: logoGlow 3s ease-in-out infinite;
-        }
-
-        .brand-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-text span:first-child {
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .brand-text span:last-child {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: #9ca3af;
-        }
-
-        .nav-main {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.1rem;
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        .nav-links a {
-            padding: 0.25rem 0;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.2s ease, color 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            border-bottom-color: #38bdf8;
-            color: #e0f2fe;
-        }
-
-        /* Edit toolbar */
-        .edit-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-            background: rgba(15, 23, 42, 0.95);
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            padding: 0.25rem 0.6rem;
-            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
-        }
-
-        .edit-toolbar button {
-            border: none;
-            outline: none;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 0.25rem 0.6rem;
-            border-radius: 999px;
-            cursor: pointer;
-            color: #e5e7eb;
-            font-size: 0.75rem;
-            border: 1px solid rgba(148, 163, 184, 0.6);
-            transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
-        }
-
-        .edit-toolbar button:hover {
-            transform: translateY(-1px);
-            background: rgba(37, 99, 235, 0.3);
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.6);
-        }
-
-        .edit-indicator {
-            font-size: 0.7rem;
-            color: #9ca3af;
-            transition: color 0.2s ease;
-        }
-
-        body.editing .edit-indicator {
-            color: #22c55e;
-        }
-
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem 1.2rem 3rem;
-            transition: outline 0.2s ease, outline-offset 0.2s ease;
-        }
-
-        body.editing main {
-            outline: 2px dashed rgba(56, 189, 248, 0.5);
-            outline-offset: 6px;
-        }
-
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-            gap: 2rem;
-            align-items: center;
-            padding: 2.5rem 0 1.8rem;
-        }
-
-        .hero-text h1 {
-            font-size: clamp(2rem, 3.4vw, 2.7rem);
-            margin-bottom: 0.5rem;
-        }
-
-        .hero-text h1 span {
-            color: #38bdf8;
-        }
-
-        .hero-text .tagline {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: #9ca3af;
-            margin-bottom: 0.6rem;
-        }
-
-        .hero-text p {
-            color: #cbd5f5;
-            margin-bottom: 1rem;
-            max-width: 520px;
-        }
-
-        .hero-highlights {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            margin: 0.6rem 0 1.2rem;
-            font-size: 0.78rem;
-        }
-
-        .pill {
-            padding: 0.25rem 0.7rem;
-            border-radius: 999px;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            color: #e5e7eb;
-            backdrop-filter: blur(6px);
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 0.2rem;
-        }
-
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 999px;
-            border: 1px solid #38bdf8;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.18s ease,
-                background 0.15s ease;
-            background: transparent;
-            color: #e5e7eb;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            border-color: transparent;
-            color: #0f172a;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 16px 35px rgba(15, 23, 42, 0.9);
-        }
-
-        .hero-image-card {
-            background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 55%),
-                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.18), transparent 55%),
-                #020617;
-            border-radius: 24px;
-            padding: 1.1rem;
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-            animation: floatCard 6s ease-in-out infinite;
-        }
-
-        .hero-image {
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.6);
-        }
-
-        .hero-image img {
-            transform: scale(1.02);
-            transition: transform 0.8s ease;
-        }
-
-        .hero-image-card:hover .hero-image img {
-            transform: scale(1.06);
-        }
-
-        .hero-image-caption {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #cbd5f5;
-        }
-
-        section {
-            margin-top: 2.5rem;
-        }
-
-        section h2 {
-            font-size: 1.35rem;
-            margin-bottom: 0.4rem;
-        }
-
-        section p.section-subtitle {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            margin-bottom: 1rem;
-        }
-
-        .two-col {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-            gap: 1.8rem;
-        }
-
-        .about-text {
-            font-size: 0.95rem;
-            color: #e5e7eb;
-        }
-
-        .info-card {
-            padding: 1rem;
-            border-radius: 0.9rem;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            background: rgba(15, 23, 42, 0.95);
-            font-size: 0.9rem;
-            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.8);
-        }
-
-        .info-card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .info-row {
-            margin-bottom: 0.3rem;
-        }
-
-        .info-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: #9ca3af;
-        }
-
-        .info-value {
-            font-size: 0.92rem;
-        }
-
-        ul {
-            padding-left: 1.1rem;
-            font-size: 0.9rem;
-        }
-
-        ul li {
-            margin-bottom: 0.3rem;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 1rem;
-            margin-top: 0.6rem;
+        button {
+            cursor: pointer
         }
 
         .card {
-            padding: 1rem;
-            border-radius: 0.9rem;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            background: rgba(15, 23, 42, 0.95);
-            font-size: 0.9rem;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
+            padding: 12px;
+            border-radius: 10px
         }
 
-        .card h3 {
-            font-size: 1rem;
-            margin-bottom: 0.3rem;
+        .profiles {
+            max-height: 420px;
+            overflow: auto
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-            border-color: rgba(56, 189, 248, 0.6);
+        .profile-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, .03)
         }
 
-        .campus-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1rem;
-            margin-top: 0.8rem;
+        .muted {
+            color: #9fb0d9;
+            font-size: 13px
         }
 
-        .campus-card {
-            padding: 1rem;
-            border-radius: 0.9rem;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            background: rgba(15, 23, 42, 0.97);
-            font-size: 0.9rem;
-            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        .qr-area {
+            display: flex;
+            gap: 12px;
+            align-items: center
         }
 
-        .campus-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.85);
+        .small {
+            font-size: 13px
         }
 
-        .campus-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: #9ca3af;
-            margin-bottom: 0.3rem;
+        .center {
+            text-align: center
         }
 
-        .campus-name {
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .campus-board {
-            font-size: 0.8rem;
-            color: #cbd5f5;
-            margin-bottom: 0.4rem;
-        }
-
-        .campus-meta {
-            font-size: 0.78rem;
-            color: #9ca3af;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 0.9rem;
-            margin-top: 0.8rem;
-        }
-
-        .gallery-item {
-            border-radius: 0.8rem;
-            overflow: hidden;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            background: #020617;
-            font-size: 0.8rem;
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-        }
-
-        .gallery-item img {
-            height: 150px;
-            width: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 38px rgba(15, 23, 42, 0.9);
-            border-color: rgba(56, 189, 248, 0.6);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.04);
-        }
-
-        .gallery-item p {
-            padding: 0.5rem 0.7rem 0.6rem;
-        }
-
-        .contact-box {
-            margin-top: 0.8rem;
-            padding: 1rem;
-            border-radius: 0.9rem;
-            border: 1px dashed rgba(148, 163, 184, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .contact-row {
-            margin-top: 0.5rem;
-        }
-
-        .contact-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: #9ca3af;
-        }
-
-        .contact-value {
-            font-size: 0.95rem;
+        .danger {
+            background: #7b1221
         }
 
         footer {
-            border-top: 1px solid rgba(148, 163, 184, 0.3);
-            padding: 1rem 1.2rem 1.5rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-top: 2rem;
+            margin-top: 18px;
+            font-size: 12px;
+            color: #9fb0d9
         }
 
-        /* REVEAL ANIMATIONS (on scroll) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            filter: blur(4px);
-            transition:
-                opacity 0.7s ease-out,
-                transform 0.7s ease-out,
-                filter 0.7s ease-out;
-            transition-delay: var(--delay, 0s);
+        .row {
+            display: flex;
+            gap: 8px
         }
 
-        .reveal-visible {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px
         }
 
-        /* While editing, show everything clearly */
-        body.editing .reveal {
-            opacity: 1 !important;
-            transform: none !important;
-            filter: none !important;
-        }
-
-        /* KEYFRAMES */
-        @keyframes floatCard {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-8px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        @keyframes logoGlow {
-            0% {
-                box-shadow: 0 0 0 rgba(56, 189, 248, 0.0);
-            }
-
-            50% {
-                box-shadow: 0 0 18px rgba(56, 189, 248, 0.55);
-            }
-
-            100% {
-                box-shadow: 0 0 0 rgba(56, 189, 248, 0.0);
-            }
-        }
-
-        @media (max-width: 900px) {
-
-            .hero,
-            .two-col {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
-
-        @media (max-width: 800px) {
-            .nav-main {
-                gap: 0.6rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .nav-links {
-                display: none;
-            }
-
-            main {
-                padding-top: 1.5rem;
-            }
-
-            .hero {
-                padding-top: 2rem;
-            }
-
-            .edit-toolbar {
-                position: fixed;
-                bottom: 0.75rem;
-                right: 0.75rem;
-            }
+        .pill {
+            background: rgba(255, 255, 255, .03);
+            padding: 6px 10px;
+            border-radius: 999px
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <div class="nav">
-            <div class="brand">
-                <div class="brand-logo">
-                    <!-- ONLINE logo image (works if you have internet) -->
-                    <img src="https://placehold.co/80x80?text=TIPS" alt="Trinity International Public School logo" />
-                </div>
-                <div class="brand-text">
-                    <span>Trinity International Public School</span>
-                    <span>CBSE · ICSE · ISC</span>
-                </div>
-            </div>
-
-            <div class="nav-main">
-                <nav class="nav-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#founder">Founder</a>
-                    <a href="#campuses">Campuses</a>
-                    <a href="#academics">Academics</a>
-                    <a href="#facilities">Facilities</a>
-                    <a href="#gallery">Gallery</a>
-                    <a href="#contact">Admissions & Contact</a>
-                </nav>
-
-                <!-- Edit toolbar -->
-                <div class="edit-toolbar">
-                    <span class="edit-indicator" id="edit-status">View Mode</span>
-                    <button id="edit-toggle">Edit On/Off</button>
-                    <button id="save-site">Save Changes</button>
-                    <button id="reset-site">Reset Site</button>
-                </div>
+    <div class="wrap">
+        <div class="topbar">
+            <h1>FakeMoney — Gamer Wallet (Demo)</h1>
+            <div id="authArea" class="pill">
+                <!-- filled by JS -->
             </div>
         </div>
-    </header>
 
-    <!-- Everything inside <main> can be edited when Edit Mode is ON -->
-    <main id="editable-area">
-        <!-- Hero Section -->
-        <section class="hero reveal" id="home" style="--delay: 0.1s;">
-            <div class="hero-text">
-                <div class="tagline">Trinity Group · Lucknow</div>
-                <h1>Welcome to <span>Trinity International Public School</span></h1>
-                <p>
-                    Trinity International Public School (TIPS) has campuses at Amrapali Yojna (CBSE)
-                    and Eldeco Udyan-1 / Bangla Bazar (ICSE &amp; ISC), providing holistic education
-                    with a strong focus on academics, values and life skills.
-                </p>
+        <div class="grid">
+            <div>
+                <div class="card" id="authCard">
+                    <h3 id="authTitle">Create profile / Login</h3>
 
-                <div class="hero-highlights">
-                    <div class="pill">Co-educational · Day School</div>
-                    <div class="pill">CBSE · ICSE · ISC</div>
-                    <div class="pill">Modern Classrooms &amp; Labs</div>
-                    <div class="pill">Sports &amp; Co-curricular Activities</div>
-                </div>
-
-                <div class="hero-buttons">
-                    <button class="btn btn-primary"
-                        onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});">
-                        Enquiry / Admissions
-                    </button>
-                    <button class="btn"
-                        onclick="document.getElementById('campuses').scrollIntoView({behavior:'smooth'});">
-                        View Campuses
-                    </button>
-                </div>
-            </div>
-
-            <div class="hero-image-card reveal" style="--delay: 0.3s;">
-                <div class="hero-image">
-                    <!-- ONLINE main campus image -->
-                    <img src="https://placehold.co/700x420?text=Trinity+Main+Campus"
-                        alt="Trinity International Public School campus" />
-                </div>
-                <p class="hero-image-caption">
-                    Safe, vibrant and learner-centred campuses at Amrapali Yojna and Eldeco Udyan-1, Lucknow.
-                </p>
-            </div>
-        </section>
-
-        <!-- About -->
-        <section id="about" class="reveal" style="--delay: 0.1s;">
-            <h2>About Trinity International Public School</h2>
-            <p class="section-subtitle">Holistic education for tomorrow’s global citizens.</p>
-
-            <div class="two-col">
-                <div class="about-text">
-                    <p>
-                        Trinity International Public School (TIPS) in Lucknow is a co-educational English
-                        medium group of schools offering CBSE, ICSE and ISC curricula. With campuses at
-                        Amrapali Yojna and Eldeco Udyan-1 (Eldeco Colony / Bangla Bazar), TIPS focuses on
-                        a balanced blend of strong academics, sports, arts and life skills to ensure the
-                        all-round development of students.
-                    </p>
-                    <br />
-                    <p>
-                        Well-qualified teachers, modern classrooms and a caring environment help build
-                        confident, disciplined and responsible individuals who are ready to face the
-                        challenges of a rapidly changing world.
-                    </p>
-                    <br />
-                    <p><strong>Vision:</strong> To provide every child with the tools, values and opportunities
-                        to learn, explore and discover their full potential.</p>
-                    <p><strong>Mission:</strong> To create learner-centred, safe and inclusive campuses where
-                        academic excellence goes hand-in-hand with character building and life-long learning.</p>
-                </div>
-
-                <div class="info-card reveal" style="--delay: 0.25s;">
-                    <h3>Group Highlights</h3>
-                    <div class="info-row">
-                        <div class="info-label">Locations</div>
-                        <div class="info-value">
-                            Amrapali Yojna, Awas Vikas, Lucknow (CBSE)<br />
-                            Eldeco Udyan-1 / Bangla Bazar, Lucknow (ICSE &amp; ISC)
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Medium</div>
-                        <div class="info-value">English · Co-educational · Day School</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Classes</div>
-                        <div class="info-value">Nursery / I to XII (as per campus)</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Academic Session</div>
-                        <div class="info-value">April to March</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Focus Areas</div>
-                        <div class="info-value">
-                            Concept clarity · Communication skills · Discipline · Values · Life skills
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Founder / Owner -->
-        <section id="founder" class="reveal" style="--delay: 0.1s;">
-            <h2>Founder &amp; Management</h2>
-            <p class="section-subtitle">The vision and people behind Trinity International Public School.</p>
-
-            <div class="two-col">
-                <div class="about-text">
-                    <p>
-                        Trinity International Public School was founded by
-                        <strong>Mr. B. L. Singh</strong>, Ex. Additional Commissioner, with a clear vision of
-                        creating a school where children learn to think independently, adapt to change and
-                        contribute positively to society. He laid the foundation of TIPS with the belief
-                        that education should focus on learning, relearning and active participation in the
-                        world around us.
-                    </p>
-                    <br />
-                    <p>
-                        Under his guidance, TIPS has grown from a single campus to a reputed group of schools
-                        in Lucknow, offering quality education through the CBSE, ICSE and ISC boards. His
-                        emphasis on discipline, values and modern infrastructure continues to shape the
-                        culture of the school.
-                    </p>
-                    <br />
-                    <p>
-                        The <strong>Amrapali Yojna (CBSE) campus</strong> is managed by
-                        <strong>B.S.S. Educational Centre</strong>, which looks after academic standards,
-                        staff development and overall administration. The Eldeco Udyan-1 campus follows the
-                        norms of the Council for the Indian School Certificate Examinations (CISCE) while
-                        upholding the same Trinity philosophy and ethos.
-                    </p>
-                </div>
-
-                <div class="info-card reveal" style="--delay: 0.25s;">
-                    <h3>Our Founder</h3>
-                    <div style="display:flex; gap:0.8rem; align-items:flex-start; margin-bottom:0.6rem;">
-                        <div
-                            style="width:90px; height:90px; border-radius:999px; overflow:hidden; border:1px solid rgba(148,163,184,0.6); flex-shrink:0;">
-                            <!-- Placeholder founder image -->
-                            <img src="https://placehold.co/200x200?text=Mr.+B.L.+Singh" alt="Founder Mr. B. L. Singh" />
-                        </div>
-                        <div style="font-size:0.9rem;">
-                            <div style="font-weight:600;">Mr. B. L. Singh</div>
-                            <div style="font-size:0.8rem; color:#9ca3af; margin-bottom:0.3rem;">
-                                Founder, Trinity International Public School
-                            </div>
-                            <div style="font-size:0.8rem;">
-                                Ex. Additional Commissioner<br />
-                                Educationist &amp; Visionary Founder of TIPS Group
-                            </div>
+                    <div id="createForm">
+                        <label>Display name</label>
+                        <input id="name" placeholder="gamer123" />
+                        <label>Gamer tag / username</label>
+                        <input id="username" placeholder="GAMER_TAG" />
+                        <label>Email (optional)</label>
+                        <input id="email" placeholder="you@example.com" />
+                        <label>Starting balance</label>
+                        <input id="balance" type="number" value="1000" />
+                        <label>Password <span class="muted small">(local demo only)</span></label>
+                        <input id="password" type="password" placeholder="choose a password" />
+                        <label>Notes</label>
+                        <input id="notes" placeholder="e.g. main account" />
+                        <div style="margin-top:8px;display:flex;gap:8px">
+                            <button onclick="createProfile(true)">Create & Login</button>
+                            <button onclick="createProfile(false)">Create (stay logged out)</button>
+                            <button onclick="seedExample()">Seed example accounts</button>
                         </div>
                     </div>
 
-                    <div class="info-row">
-                        <div class="info-label">Role</div>
-                        <div class="info-value">
-                            Founder &amp; Mentor of Trinity International Public School campuses in Lucknow.
+                    <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,.03)" />
+
+                    <div id="loginForm">
+                        <label>Login by username or account id</label>
+                        <input id="loginId" placeholder="username or account id" />
+                        <label>Password</label>
+                        <input id="loginPwd" type="password" placeholder="password" />
+                        <div style="margin-top:8px;display:flex;gap:8px">
+                            <button onclick="login()">Login</button>
+                            <button onclick="logout()">Logout</button>
+                        </div>
+                        <div id="authMsg" class="muted small" style="margin-top:8px"></div>
+                    </div>
+
+                </div>
+
+                <div class="card" style="margin-top:12px">
+                    <h3>Transfer fake money</h3>
+                    <label>Sender</label>
+                    <select id="sender"></select>
+                    <label>Recipient (choose or scan QR)</label>
+                    <select id="recipient"></select>
+                    <label>Amount</label>
+                    <input id="amount" type="number" value="100" />
+                    <div class="row" style="margin-top:8px">
+                        <button onclick="doTransfer()">Send</button>
+                        <button onclick="openScanner()">Scan QR</button>
+                        <button onclick="clearAll()" style="background:#a6393a">Reset DB</button>
+                    </div>
+                    <div id="transferMsg" class="muted small" style="margin-top:8px"></div>
+                </div>
+
+                <div class="card" style="margin-top:12px">
+                    <h3>Generate receive QR</h3>
+                    <label>Choose profile</label>
+                    <select id="qrProfile"></select>
+                    <label>Amount (optional)</label>
+                    <input id="qrAmount" type="number" placeholder="leave empty to share only account id" />
+                    <div style="margin-top:8px" class="qr-area">
+                        <div id="qrcode"></div>
+                        <div>
+                            <button onclick="generateQR()">Generate QR</button>
+                            <div class="muted small">QR content: <span id="qrContent" class="small"></span></div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="info-row">
-                        <div class="info-label">Key Focus</div>
-                        <div class="info-value">
-                            Value-based education, disciplined environment, modern infrastructure and
-                            opportunities for students to learn beyond textbooks.
+            </div>
+
+            <div>
+                <div class="card">
+                    <h3>Profiles</h3>
+                    <div class="profiles" id="profilesList"></div>
+                </div>
+
+                <div class="card" style="margin-top:12px">
+                    <h3>Scanner</h3>
+                    <div id="scannerArea" class="center">
+                        <video id="video" width="320" height="240" autoplay playsinline
+                            style="border-radius:8px;background:#000"></video>
+                        <canvas id="canvas" style="display:none"></canvas>
+                        <div id="scanResult" class="muted small" style="margin-top:8px">No scan yet</div>
+                        <div style="margin-top:8px" class="row">
+                            <button onclick="startScanner()">Start camera</button>
+                            <button onclick="stopScanner()">Stop camera</button>
                         </div>
                     </div>
+                </div>
 
-                    <div class="info-row">
-                        <div class="info-label">Management Body</div>
-                        <div class="info-value">
-                            B.S.S. Educational Centre (for Amrapali Yojna CBSE campus) along with a dedicated
-                            team of academic leaders and teachers.
-                        </div>
+                <div class="card" style="margin-top:12px">
+                    <h3>How it works</h3>
+                    <div class="muted small">
+                        Each profile gets a unique account ID. Transfers are simulated locally (localStorage). Use the
+                        Receive QR to share your account id (and optional amount). Scan QR to auto-fill recipient.
+                        <div style="margin-top:6px">Note: This demo stores passwords locally in the browser for
+                            convenience only — <strong>do not</strong> use real passwords or real money.</div>
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
 
-        <!-- Campuses (Amrapali + Eldeco) -->
-        <section id="campuses" class="reveal" style="--delay: 0.1s;">
-            <h2>Our Campuses</h2>
-            <p class="section-subtitle">Two strong campuses under one vision.</p>
+        <footer>Download the file (Save As .html) and open in a modern browser. This is a local demo — no server, no
+            real money. For multiplayer across devices you would need a backend (not included).</footer>
+    </div>
 
-            <div class="campus-grid">
-                <!-- Amrapali Yojna CBSE -->
-                <div class="campus-card reveal" style="--delay: 0.2s;">
-                    <div class="campus-tag">Campus 1</div>
-                    <div class="campus-name">TIPS – Amrapali Yojna (CBSE)</div>
-                    <div class="campus-board">Affiliated to CBSE · School Code: 71659</div>
-                    <p>
-                        Trinity International Public School, Amrapali Yojna is a CBSE-affiliated
-                        co-educational school offering a strong academic programme with modern sports
-                        facilities, labs and a student-friendly environment.
-                    </p>
-                    <div class="campus-meta">
-                        Address: E-5, Awas Vikas, Amrapali Yojna,<br />
-                        Lucknow – 226003, Uttar Pradesh, India
-                    </div>
-                </div>
-
-                <!-- Eldeco Udyan-1 ICSE/ISC -->
-                <div class="campus-card reveal" style="--delay: 0.3s;">
-                    <div class="campus-tag">Campus 2</div>
-                    <div class="campus-name">TIPS – Eldeco Udyan-1 (ICSE &amp; ISC)</div>
-                    <div class="campus-board">Affiliated to CISCE (ICSE &amp; ISC) · School Code: UP352</div>
-                    <p>
-                        Trinity International Public School, Eldeco Udyan-1 (often known as ICS TIPS Eldeco
-                        Colony / Bangla Bazar) is a co-educational ICSE &amp; ISC campus established in 2013.
-                        It offers concept-driven learning with emphasis on communication, values and
-                        personality development.
-                    </p>
-                    <div class="campus-meta">
-                        Address: Gate No-1, Eldeco Udyan-1, near Casa Green,<br />
-                        Bangla Bazar, Lucknow – 226002, Uttar Pradesh, India
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Academics -->
-        <section id="academics" class="reveal" style="--delay: 0.1s;">
-            <h2>Academics</h2>
-            <p class="section-subtitle">Strong foundation, concept clarity and continuous assessment.</p>
-
-            <div class="grid-3">
-                <div class="card reveal" style="--delay: 0.15s;">
-                    <h3>Primary (Nursery / I – V)</h3>
-                    <p>
-                        Focus on building a strong base in English, Mathematics, Environmental Studies,
-                        Hindi and Computer education with activity-based learning and regular reinforcement.
-                    </p>
-                    <ul>
-                        <li>Play-way and experiential methods</li>
-                        <li>Emphasis on reading and communication skills</li>
-                        <li>Colourful, child-friendly classrooms</li>
-                    </ul>
-                </div>
-
-                <div class="card reveal" style="--delay: 0.25s;">
-                    <h3>Middle &amp; Secondary (VI – X)</h3>
-                    <p>
-                        Structured CBSE / ICSE curriculum with a focus on conceptual understanding,
-                        projects and periodic assessments.
-                    </p>
-                    <ul>
-                        <li>Science &amp; Mathematics lab support</li>
-                        <li>Projects, assignments and group work</li>
-                        <li>Continuous feedback to parents</li>
-                    </ul>
-                </div>
-
-                <div class="card reveal" style="--delay: 0.35s;">
-                    <h3>Senior Secondary (XI – XII)</h3>
-                    <p>
-                        Career-oriented preparation with guidance for competitive exams along
-                        with board examinations (CBSE / ISC, as offered at respective campuses).
-                    </p>
-                    <ul>
-                        <li>Streams as per CBSE / ISC norms (Science / Commerce etc.)</li>
-                        <li>Special focus on board exam preparation</li>
-                        <li>Career counselling and mentoring</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Facilities -->
-        <section id="facilities" class="reveal" style="--delay: 0.1s;">
-            <h2>Facilities</h2>
-            <p class="section-subtitle">Safe, well-equipped and student-friendly campus environment.</p>
-
-            <div class="grid-3">
-                <div class="card reveal" style="--delay: 0.15s;">
-                    <h3>Campus &amp; Classrooms</h3>
-                    <ul>
-                        <li>Spacious, well-ventilated classrooms</li>
-                        <li>Lush green playgrounds and sports facilities</li>
-                        <li>Safe and student-friendly campus layout</li>
-                    </ul>
-                </div>
-
-                <div class="card reveal" style="--delay: 0.25s;">
-                    <h3>Labs &amp; Library</h3>
-                    <ul>
-                        <li>Well-equipped Science laboratories (Physics, Chemistry, Biology)</li>
-                        <li>Computer labs with internet-enabled systems</li>
-                        <li>Libraries with academic and story books</li>
-                    </ul>
-                </div>
-
-                <div class="card reveal" style="--delay: 0.35s;">
-                    <h3>Student Support</h3>
-                    <ul>
-                        <li>Transport facility on major routes (as per campus)</li>
-                        <li>Medical room / basic first-aid support</li>
-                        <li>Regular parent–teacher interaction</li>
-                    </ul>
-                </div>
-            </div>
-
-            <p style="font-size:0.8rem; color:#9ca3af; margin-top:0.6rem;">
-                Note: Facilities and streams may vary by campus and session. Please confirm with the respective school
-                office.
-            </p>
-        </section>
-
-        <!-- Gallery -->
-        <section id="gallery" class="reveal" style="--delay: 0.1s;">
-            <h2>Gallery</h2>
-            <p class="section-subtitle">A glimpse of life at Trinity International Public School.</p>
-
-            <div class="gallery-grid">
-                <div class="gallery-item reveal" style="--delay: 0.15s;">
-                    <!-- ONLINE Amrapali campus image -->
-                    <img src="https://placehold.co/400x250?text=Amrapali+Campus" alt="TIPS Amrapali Yojna campus" />
-                    <p>CBSE campus at Amrapali Yojna – modern building with green surroundings.</p>
-                </div>
-
-                <div class="gallery-item reveal" style="--delay: 0.22s;">
-                    <!-- ONLINE Eldeco campus image -->
-                    <img src="https://placehold.co/400x250?text=Eldeco+Campus" alt="TIPS Eldeco Udyan-1 campus" />
-                    <p>ICSE &amp; ISC campus at Eldeco Udyan-1 / Bangla Bazar with spacious playgrounds.</p>
-                </div>
-
-                <div class="gallery-item reveal" style="--delay: 0.29s;">
-                    <!-- ONLINE Classroom image -->
-                    <img src="https://placehold.co/400x250?text=Classroom"
-                        alt="Classroom at Trinity International Public School" />
-                    <p>Interactive classrooms that encourage participation and joyful learning.</p>
-                </div>
-
-                <div class="gallery-item reveal" style="--delay: 0.36s;">
-                    <!-- ONLINE Cultural / Sports image -->
-                    <img src="https://placehold.co/400x250?text=Cultural+%26+Sports"
-                        alt="Students in cultural and sports activities" />
-                    <p>Students participating in cultural events and sports for all-round development.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact / Admissions -->
-        <section id="contact" class="reveal" style="--delay: 0.1s;">
-            <h2>Admissions &amp; Contact</h2>
-            <p class="section-subtitle">Get in touch with TIPS campuses in Lucknow.</p>
-
-            <div class="contact-box reveal" style="--delay: 0.2s;">
-                <p>
-                    For admission enquiries, fee details or to schedule a campus visit, please contact
-                    the respective school office or visit the official website.
-                </p>
-
-                <div class="contact-row">
-                    <div class="contact-label">Amrapali Yojna (CBSE)</div>
-                    <div class="contact-value">
-                        Trinity International Public School (TIPS), Amrapali Yojna<br />
-                        E-5, Awas Vikas, Amrapali Yojna,<br />
-                        Lucknow – 226003, Uttar Pradesh, India
-                    </div>
-                </div>
-
-                <div class="contact-row">
-                    <div class="contact-label">Eldeco Udyan-1 (ICSE &amp; ISC)</div>
-                    <div class="contact-value">
-                        Trinity International Public School (TIPS), Eldeco Udyan-1 / Bangla Bazar<br />
-                        Gate No-1, Eldeco Udyan-1 (near Casa Green),<br />
-                        Bangla Bazar, Lucknow – 226002, Uttar Pradesh, India
-                    </div>
-                </div>
-
-                <div class="contact-row">
-                    <div class="contact-label">Email</div>
-                    <div class="contact-value">
-                        <a href="mailto:trinityinternationaltips@gmail.com">trinityinternationaltips@gmail.com</a>
-                    </div>
-                </div>
-
-                <div class="contact-row">
-                    <div class="contact-label">Website</div>
-                    <div class="contact-value">
-                        <a href="https://trinitypublicschools.com" target="_blank">
-                            https://trinitypublicschools.com
-                        </a>
-                    </div>
-                </div>
-
-                <div class="contact-row">
-                    <div class="contact-label">Phone</div>
-                    <div class="contact-value">
-                        School Office (Amrapali / Eldeco): +91-XXXXXXXXXX
-                        <span style="font-size:0.8rem; color:#9ca3af;">
-                            (replace with official contact numbers)
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        © <span id="year"></span> Trinity International Public School, Lucknow. All rights reserved.
-    </footer>
+    <!-- Libraries (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
     <script>
-        // Auto set current year
-        document.getElementById("year").textContent = new Date().getFullYear();
+        // Simple local database using localStorage
+        const DB_KEY = 'fake_money_db_v1';
+        const AUTH_KEY = 'fake_money_logged_in_v1';
 
-        // NEW STORAGE KEY so old broken content does not load
-        const EDIT_KEY = "tips_editable_main_html_v2";
+        function loadDB() {
+            const raw = localStorage.getItem(DB_KEY);
+            if (!raw) return { profiles: [] };
+            try { return JSON.parse(raw); } catch (e) { return { profiles: [] } }
+        }
+        function saveDB(db) { localStorage.setItem(DB_KEY, JSON.stringify(db)); renderAll(); }
 
-        const main = document.getElementById("editable-area");
-        const editToggle = document.getElementById("edit-toggle");
-        const saveBtn = document.getElementById("save-site");
-        const resetBtn = document.getElementById("reset-site");
-        const statusEl = document.getElementById("edit-status");
-
-        // Load saved content (if any) for v2
-        const savedHtml = localStorage.getItem(EDIT_KEY);
-        if (savedHtml) {
-            main.innerHTML = savedHtml;
+        function createAccountNumber() {
+            return 'FM' + Date.now().toString().slice(-6) + Math.floor(100 + Math.random() * 900).toString();
         }
 
-        let editing = false;
+        function createProfile(loginAfter) {
+            const name = document.getElementById('name').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            let balance = Number(document.getElementById('balance').value) || 0;
+            const notes = document.getElementById('notes').value.trim();
+            const password = document.getElementById('password').value || '';
+            if (!name || !username) { alert('Please fill name and username'); return }
+            const db = loadDB();
+            // ensure unique username
+            if (db.profiles.find(p => p.username.toLowerCase() === username.toLowerCase())) { alert('Username already exists'); return }
+            const acct = createAccountNumber();
+            const profile = { id: acct, name, username, email, balance, notes, created: Date.now(), password: password };
+            db.profiles.push(profile);
+            saveDB(db);
+            // clear form
+            document.getElementById('name').value = ''; document.getElementById('username').value = ''; document.getElementById('email').value = ''; document.getElementById('notes').value = ''; document.getElementById('balance').value = '1000'; document.getElementById('password').value = '';
+            if (loginAfter) { localStorage.setItem(AUTH_KEY, acct); renderAll(); }
+            alert('Profile created. Account ID: ' + acct + (loginAfter ? ' (logged in)' : ''));
+        }
 
-        function updateStatus() {
-            if (editing) {
-                statusEl.textContent = "Editing Mode";
-                document.body.classList.add("editing");
+        function seedExample() {
+            const db = loadDB();
+            if (db.profiles.length > 0) if (!confirm('DB not empty. Add example accounts anyway?')) return;
+            db.profiles = [
+                { id: createAccountNumber(), name: 'Player One', username: 'PLAYER1', email: '', balance: 1500, notes: 'main', password: '1111' },
+                { id: createAccountNumber(), name: 'Shadow', username: 'SHDW', email: '', balance: 800, notes: 'alt', password: '2222' },
+                { id: createAccountNumber(), name: 'Nova', username: 'NOVA', email: '', balance: 1200, notes: 'streamer', password: '3333' }
+            ];
+            saveDB(db);
+            alert('Seeded example accounts. Use the Login area to sign in (passwords: 1111 / 2222 / 3333).');
+        }
+
+        function renderAll() {
+            const db = loadDB();
+            const list = document.getElementById('profilesList'); list.innerHTML = '';
+            const sender = document.getElementById('sender'); sender.innerHTML = '';
+            const recipient = document.getElementById('recipient'); recipient.innerHTML = '';
+            const qrProfile = document.getElementById('qrProfile'); qrProfile.innerHTML = '';
+            const loggedIn = localStorage.getItem(AUTH_KEY);
+
+            db.profiles.forEach(p => {
+                const div = document.createElement('div'); div.className = 'profile-item';
+                const loggedTag = (loggedIn === p.id) ? '<div class="muted small">(Logged in)</div>' : '';
+                div.innerHTML = `<div>
+          <div><strong>${escapeHtml(p.name)}</strong> <span class="muted">(${escapeHtml(p.username)})</span></div>
+          <div class="muted small">Acct: ${p.id} • Bal: ${p.balance} ${loggedTag}</div>
+        </div>
+        <div style="text-align:right">
+          <button onclick="showSendQR('${p.id}')">QR</button>
+          <button onclick="editProfile('${p.id}')">Edit</button>
+        </div>`;
+                list.appendChild(div);
+                const opt = document.createElement('option'); opt.value = p.id; opt.text = `${p.name} (${p.username}) — ${p.id}`;
+                sender.appendChild(opt.cloneNode(true)); recipient.appendChild(opt.cloneNode(true)); qrProfile.appendChild(opt.cloneNode(true));
+            });
+            if (db.profiles.length === 0) { list.innerHTML = '<div class="muted">No profiles yet. Create one or seed examples.</div>' }
+            updateAuthUI();
+            // if logged in, set sender and disable changing sender
+            if (loggedIn) { sender.value = loggedIn; sender.disabled = true; } else { sender.disabled = false; }
+            document.getElementById('qrContent').textContent = '';
+        }
+
+        function updateAuthUI() {
+            const authArea = document.getElementById('authArea');
+            const loggedIn = localStorage.getItem(AUTH_KEY);
+            if (loggedIn) {
+                const db = loadDB(); const p = db.profiles.find(x => x.id === loggedIn);
+                authArea.innerHTML = p ? `${escapeHtml(p.username)} • ${p.id} <button style="margin-left:8px" onclick="logout()">Sign out</button>` : '<button onclick="logout()">Sign out</button>';
+                document.getElementById('authMsg').textContent = '';
             } else {
-                statusEl.textContent = "View Mode";
-                document.body.classList.remove("editing");
+                authArea.innerHTML = '<button onclick="document.getElementById(\'loginId\').focus()">Sign in / Create</button>';
             }
         }
 
-        function setEditingMode(on) {
-            editing = on;
-            main.contentEditable = on ? "true" : "false";
-            updateStatus();
+        function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": "&#39;" }[c] }); }
+
+        function showSendQR(id) {
+            document.getElementById('qrProfile').value = id; document.getElementById('qrAmount').value = ''; generateQR();
         }
 
-        editToggle.addEventListener("click", () => {
-            setEditingMode(!editing);
-        });
-
-        saveBtn.addEventListener("click", () => {
-            localStorage.setItem(EDIT_KEY, main.innerHTML);
-            alert("Changes saved on this browser ✅");
-        });
-
-        resetBtn.addEventListener("click", () => {
-            if (confirm("Reset the site to original content? This will remove your saved changes.")) {
-                localStorage.removeItem(EDIT_KEY);
-                window.location.reload();
-            }
-        });
-
-        // Scroll reveal animations
-        function initRevealAnimations() {
-            const revealElements = document.querySelectorAll(".reveal");
-            if (!("IntersectionObserver" in window)) {
-                // Fallback: just show all
-                revealElements.forEach(el => el.classList.add("reveal-visible"));
-                return;
-            }
-
-            const observer = new IntersectionObserver(
-                (entries, obs) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("reveal-visible");
-                            obs.unobserve(entry.target);
-                        }
-                    });
-                },
-                {
-                    threshold: 0.15
-                }
-            );
-
-            revealElements.forEach(el => observer.observe(el));
+        function editProfile(id) {
+            const db = loadDB(); const p = db.profiles.find(x => x.id === id); if (!p) return; const newName = prompt('Display name', p.name); if (newName === null) return; p.name = newName; saveDB(db);
         }
 
-        // Start in view mode & init animations
-        setEditingMode(false);
-        initRevealAnimations();
+        function login() {
+            const idOrUser = document.getElementById('loginId').value.trim();
+            const pwd = document.getElementById('loginPwd').value || '';
+            const db = loadDB();
+            const p = db.profiles.find(x => x.username.toLowerCase() === idOrUser.toLowerCase() || x.id === idOrUser);
+            const msg = document.getElementById('authMsg'); msg.textContent = '';
+            if (!p) { msg.textContent = 'No matching profile'; return }
+            if (p.password !== pwd) { msg.textContent = 'Incorrect password'; return }
+            localStorage.setItem(AUTH_KEY, p.id); renderAll(); msg.textContent = 'Logged in as ' + p.username;
+        }
+
+        function logout() { localStorage.removeItem(AUTH_KEY); renderAll(); }
+
+        function doTransfer() {
+            const senderId = document.getElementById('sender').value;
+            const recipientId = document.getElementById('recipient').value;
+            const amt = Number(document.getElementById('amount').value) || 0;
+            const db = loadDB();
+            const s = db.profiles.find(x => x.id === senderId);
+            const r = db.profiles.find(x => x.id === recipientId);
+            const msg = document.getElementById('transferMsg'); msg.textContent = '';
+            const loggedIn = localStorage.getItem(AUTH_KEY);
+            if (loggedIn && loggedIn !== senderId) { msg.textContent = 'You must send from the logged-in account'; return }
+            if (!s || !r) { msg.textContent = 'Choose valid sender and recipient'; return }
+            if (s.id === r.id) { msg.textContent = 'Cannot transfer to same account'; return }
+            if (amt <= 0) { msg.textContent = 'Amount must be > 0'; return }
+            if (s.balance < amt) { msg.textContent = 'Sender has insufficient fake balance'; return }
+            s.balance -= amt; r.balance += amt;
+            // record a minimal tx history on profiles
+            s.tx = s.tx || []; r.tx = r.tx || [];
+            const tx = { from: s.id, to: r.id, amount: amt, time: Date.now() };
+            s.tx.push({ ...tx, dir: 'out' }); r.tx.push({ ...tx, dir: 'in' });
+            saveDB(db);
+            msg.textContent = `Transferred ${amt} from ${s.username} to ${r.username}`;
+        }
+
+        function generateQR() {
+            const profileId = document.getElementById('qrProfile').value; if (!profileId) { alert('Choose profile'); return }
+            const amount = document.getElementById('qrAmount').value.trim();
+            let payload = { acct: profileId }; if (amount) payload.amount = Number(amount);
+            const text = JSON.stringify(payload);
+            document.getElementById('qrContent').textContent = text;
+            const container = document.getElementById('qrcode'); container.innerHTML = '';
+            try { new QRCode(container, { text: text, width: 140, height: 140 }); } catch (e) { container.textContent = 'QR lib missing'; }
+        }
+
+        // Scanner code using getUserMedia + jsQR
+        let videoStream = null; let scanInterval = null;
+        async function startScanner() {
+            stopScanner();
+            const video = document.getElementById('video');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                video.srcObject = stream; videoStream = stream;
+                const canvas = document.getElementById('canvas'); const ctx = canvas.getContext('2d');
+                scanInterval = setInterval(() => {
+                    if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
+                    canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imgData.data, imgData.width, imgData.height);
+                    if (code) {
+                        handleScan(code.data);
+                    }
+                }, 250);
+            } catch (e) { alert('Could not access camera — check permissions.'); }
+        }
+        function stopScanner() { if (scanInterval) clearInterval(scanInterval); scanInterval = null; if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; } }
+
+        function handleScan(data) {
+            let parsed = null; try { parsed = JSON.parse(data); } catch (e) { parsed = { raw: data }; }
+            const el = document.getElementById('scanResult'); el.textContent = 'Scanned: ' + (parsed.acct || parsed.raw || data);
+            if (parsed.acct) { document.getElementById('recipient').value = parsed.acct; if (parsed.amount) document.getElementById('amount').value = parsed.amount; stopScanner(); }
+        }
+
+        function openScanner() { startScanner(); alert('Scanner started — allow camera and present a QR containing an account (created by this app)'); }
+
+        function clearAll() { if (!confirm('Clear local demo database?')) return; localStorage.removeItem(DB_KEY); localStorage.removeItem(AUTH_KEY); renderAll(); }
+
+        // init
+        renderAll();
     </script>
 </body>
 
